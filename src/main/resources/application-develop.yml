@@ -5,11 +5,6 @@ spring:
   config:
     activate:
       on-profile: dev
-  datasource:
-    driver-class-name:
-    url : ${application.spring.datasource.url}
-    username: ${application.spring.datasource.username}
-    password: ${application.spring.datasource.password}
 
 my:
   nickname: DEV USER!!
