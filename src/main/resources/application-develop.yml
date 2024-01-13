@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name:
+    url : ${application.spring.datasource.url}
+    username: ${application.spring.datasource.username}
+    password: ${application.spring.datasource.password}
+
+my:
+  nickname: DEV USER!!
+# org.hibernate.type: trace #??? ?? 2.x, hibernate5
+# org.hibernate.orm.jdbc.bind: trace #??? ?? 3.x, hibernate6

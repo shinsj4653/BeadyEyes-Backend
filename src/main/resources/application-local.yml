@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  config:
+    activate:
+      on-profile: local
+#  datasource:
+#    url: jdbc:h2:tcp://localhost/~/pointer
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+#
+#  h2:
+#    console:
+#      enabled: true
+
+my:
+  nickname: LOCAL USER!!
+# org.hibernate.type: trace #??? ?? 2.x, hibernate5
+# org.hibernate.orm.jdbc.bind: trace #??? ?? 3.x, hibernate6

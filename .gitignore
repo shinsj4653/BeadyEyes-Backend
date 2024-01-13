@@ -39,3 +39,6 @@ out/
 ### applications yml ###
 src/main/resources/application.yml
 src/main/resources/application_for_release.yml
+
+### firebase json key ###
+src/main/resources/serviceAccountKey.json

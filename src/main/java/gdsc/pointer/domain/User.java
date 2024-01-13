@@ -1,18 +1,17 @@
 package gdsc.pointer.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
 @Getter
-@Table(name = "TB_USER")
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
-    @Id @GeneratedValue
-    @Column(name = "user_id", nullable = false)
-    private Long id;
-
-    @Column(length = 30)
+    private String id;
     private String name;
 
 }
