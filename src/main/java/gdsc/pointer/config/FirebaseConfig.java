@@ -16,9 +16,12 @@ public class FirebaseConfig {
         try{
             FileInputStream serviceAccount =
                     new FileInputStream("src/main/resources/serviceAccountKey.json");
+
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .setDatabaseUrl("https://gdsc-sc-team4-pointer-default-rtdb.asia-southeast1.firebasedatabase.app")
                     .build();
+
             FirebaseApp.initializeApp(options);
         }catch (Exception e){
             e.printStackTrace();

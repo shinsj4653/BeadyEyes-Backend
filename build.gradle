@@ -1,3 +1,13 @@
+buildscript {
+	repositories {
+		mavenLocal()
+	}
+	dependencies {
+		classpath 'com.android.tools.build:gradle:2.1.2'
+		classpath 'com.google.gms:google-services:3.0.0'
+	}
+}
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.1'
@@ -9,6 +19,12 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	sourceCompatibility = '17'
+}
+
+allprojects {
+	repositories {
+		mavenLocal()
+	}
 }
 
 configurations {
