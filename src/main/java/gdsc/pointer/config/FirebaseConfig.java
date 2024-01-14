@@ -4,27 +4,34 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
 
 @Configuration
 public class FirebaseConfig {
 
+    @Value("${firebase.keyPath}")
+    private String keyPath;
+
     @PostConstruct
-    public void init(){
-        try{
-            FileInputStream serviceAccount =
-                    new FileInputStream("src/main/resources/serviceAccountKey.json");
+    public void init() throws IOException {
 
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                    .setDatabaseUrl("https://gdsc-sc-team4-pointer-default-rtdb.asia-southeast1.firebasedatabase.app")
-                    .build();
+        InputStream serviceAccount = getClass().getResourceAsStream(keyPath);
 
-            FirebaseApp.initializeApp(options);
-        }catch (Exception e){
-            e.printStackTrace();
+        if (Objects.isNull(serviceAccount)) {
+            throw new NullPointerException("service account is null");
         }
+
+        FirebaseOptions options = FirebaseOptions.builder()
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .build();
+
+        FirebaseApp.initializeApp(options);
+
     }
 }
