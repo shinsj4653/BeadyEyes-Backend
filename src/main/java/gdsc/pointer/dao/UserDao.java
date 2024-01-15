@@ -6,6 +6,7 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
 import gdsc.pointer.domain.User;
+import gdsc.pointer.dto.request.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -28,5 +29,10 @@ public class UserDao {
         }
         return list;
     }
+
+    public void addUser(UserDto userDto) throws Exception {
+
+    }
+
 
 }

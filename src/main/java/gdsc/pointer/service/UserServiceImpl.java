@@ -1,23 +1,16 @@
 package gdsc.pointer.service;
 
-import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
-import com.google.firebase.cloud.FirestoreClient;
 import gdsc.pointer.dao.UserDao;
 import gdsc.pointer.domain.User;
+import gdsc.pointer.dto.request.UserDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserDao userDao;
 
@@ -27,13 +20,10 @@ public class UserServiceImpl implements UserService{
     }
 
 
-//    @Override
-//    public ResponseEntity<?> insertUser(User user) throws Exception {
-//        Firestore firestore = FirestoreClient.getFirestore();
-//        ApiFuture<WriteResult> apiFuture =
-//                firestore.collection(COLLECTION_NAME).document(user.getId()).set(user);
-//        return new ResponseEntity<>("회원 추가 완료", HttpStatus.OK);
-//    }
+    @Override
+    public void addUser(UserDto userDto) throws Exception {
+        userDao.addUser(userDto);
+    }
 //
 //    @Override
 //    public ResponseEntity<?> getUserDetail(String id) throws Exception {

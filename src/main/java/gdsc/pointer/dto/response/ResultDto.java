@@ -1,4 +1,4 @@
-package gdsc.pointer.dto;
+package gdsc.pointer.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,11 +1,10 @@
 package gdsc.pointer.controller;
 
 import gdsc.pointer.domain.User;
-import gdsc.pointer.dto.ResultDto;
+import gdsc.pointer.dto.request.UserDto;
+import gdsc.pointer.dto.response.ResultDto;
 import gdsc.pointer.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,10 +25,11 @@ public class UserController {
     }
 
 
-//    @PostMapping("/insertUser")
-//    public ResponseEntity<?> insertUser(@RequestBody User user) throws Exception{
-//        return userService.insertUser(user);
-//    }
+    @PostMapping()
+    public ResponseEntity<?> addUser(@RequestBody UserDto userDto) throws Exception{
+        userService.addUser(userDto);
+        return ResponseEntity.ok(ResultDto.res(HttpStatus.CREATED, "회원 가입 완료"));
+    }
 //
 //    @GetMapping("/getUserDetail")
 //    public ResponseEntity<?> getUserDetail(@RequestParam("id") String id) throws Exception{
