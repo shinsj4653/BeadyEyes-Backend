@@ -1,10 +1,12 @@
 package gdsc.pointer.controller;
 
 import gdsc.pointer.domain.User;
+import gdsc.pointer.dto.ResultDto;
 import gdsc.pointer.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +22,7 @@ public class UserController {
     @GetMapping("getUsers")
     public ResponseEntity<?> getUsers() throws Exception {
         List<User> users = userService.getUsers();
-        return ResponseEntity.ok().body(users);
-
+        return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "회원 조회 완료", users));
     }
 
 
