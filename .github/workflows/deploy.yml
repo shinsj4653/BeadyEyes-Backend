@@ -19,6 +19,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
     
     steps:
     # 기본 체크아웃
@@ -35,11 +38,15 @@ jobs:
         distribution: 'temurin'
     # 환경 변수 설정
     - name: Set environment values
-      run: |
-        cd ./src/main/resources
-        touch ./application.properties
-        echo "FIREBASE_KEYPATH=${{ secrets.FIREBASE_KEYPATH }}" >> application.properties
+      run: echo "FIREBASE_KEYPATH=${{ secrets.FIREBASE_KEYPATH }}" >> application.properties
+      working-directory: ./src/main/resources
       shell: bash
+
+    - name: Set serviceAccountKey.json
+      run: echo "${{ secrets.SERVICE_ACCOUNT_KEY_JSON }}" >> serviceAccountKey.json
+      working-directory: ./src/main/resources
+      shell: bash
+    
     # Gradle build (Test 제외)
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
