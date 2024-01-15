@@ -49,7 +49,7 @@ jobs:
     # Docker build
     - name: Docker build
       run: |
-        docker login -u shinsj4653 -p Shin5633^^
+        docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
         docker build -t gdsc-solution-challenge-team4-pointer .
         docker tag gdsc-solution-challenge-team4-pointer shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
         docker push shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
@@ -65,7 +65,7 @@ jobs:
         envs: GITHUB_SHA
         port: 22
         script: | 
-          sudo docker login -u shinsj4653 -p Shin5633^^
+          sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
           sudo docker pull shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
           sudo docker tag shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7} gdsc-sc-pointer-backend
           sudo docker-compose up -d
