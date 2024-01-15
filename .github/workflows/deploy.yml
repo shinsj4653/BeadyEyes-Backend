@@ -35,13 +35,17 @@ jobs:
         distribution: 'temurin'
     # 환경 변수 설정
     - name: Set environment values
-      run: echo "FIREBASE_KEYPATH=${{ secrets.FIREBASE_KEYPATH }}" >> application.properties
-      working-directory: ./src/main/resources
+      run: |
+        cd ./src/main/resources
+        touch ./application.properties
+        echo "FIREBASE_KEYPATH=${{ secrets.FIREBASE_KEYPATH }}" > application.properties
       shell: bash
 
     - name: Set serviceAccountKey.json
-      run: echo "${{ secrets.SERVICE_ACCOUNT_KEY_JSON }}" >> serviceAccountKey.json
-      working-directory: ./src/main/resources
+      run: |
+        cd ./src/main/resources
+        touch ./serviceAccountKey.json
+        echo "${{ secrets.SERVICE_ACCOUNT_KEY_JSON }}" > serviceAccountKey.json
       shell: bash
     
     # Gradle build (Test 제외)
