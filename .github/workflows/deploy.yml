@@ -18,9 +18,8 @@ permissions:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    
     steps:
     # 기본 체크아웃
     - name: Checkout
@@ -38,8 +37,8 @@ jobs:
     - name: Set environment values
       run: |
         cd ./src/main/resources
-        touch ./env.properties
-        echo "${{ secrets.ENV }}" > ./env.properties
+        touch ./application.properties
+        echo "FIREBASE_KEYPATH=${{ secrets.FIREBASE_KEYPATH }}" >> application.properties
       shell: bash
     # Gradle build (Test 제외)
     - name: Build with Gradle
