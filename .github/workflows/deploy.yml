@@ -42,11 +42,16 @@ jobs:
       shell: bash
 
     - name: Set serviceAccountKey.json
-      run: |
-        cd ./src/main/resources
-        touch ./serviceAccountKey.json
-        echo "${{ secrets.SERVICE_ACCOUNT_KEY_JSON }}" > serviceAccountKey.json
-      shell: bash
+      id: create-service-account-key-json
+      uses: jsdaniell/create-json@1.1.2
+      with:
+        name: "serviceAccountKey.json"
+        json: ${{ secrets.SERVICE_ACCOUNT_KEY_JSON }}
+      #run: |
+        #cd ./src/main/resources
+        #touch ./serviceAccountKey.json
+        #echo "${{ secrets.SERVICE_ACCOUNT_KEY_JSON }}" > serviceAccountKey.json
+      #shell: bash
     
     # Gradle build (Test 제외)
     - name: Build with Gradle
