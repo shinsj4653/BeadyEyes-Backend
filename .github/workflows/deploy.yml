@@ -60,6 +60,7 @@ jobs:
         username: shinsj4653
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         envs: GITHUB_SHA
+        port: 22
         script: | 
           sudo docker login -u shinsj4653 -p Shin5633^^
           sudo docker pull shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
