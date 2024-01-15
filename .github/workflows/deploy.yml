@@ -68,3 +68,4 @@ jobs:
           sudo docker rm gdsc-sc-pointer-backend
           sudo docker run -d --name gdsc-sc-pointer-backend -p 8080:8080 gdsc-sc-pointer-backend
           sudo docker image prune -f
+          sudo docker-compose up -d
