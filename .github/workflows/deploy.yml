@@ -66,5 +66,5 @@ jobs:
           sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPOSITORY }}:${GITHUB_SHA::7} gdsc-sc-pointer-backend
           sudo docker stop gdsc-sc-pointer-backend
           sudo docker rm gdsc-sc-pointer-backend
-          sudo docker run -d --name gdsc-sc-pointer-backend -p 80:8080 gdsc-sc-pointer-backend
+          sudo docker run -d --name gdsc-sc-pointer-backend -p 8080:8080 gdsc-sc-pointer-backend
           sudo docker image prune -f
