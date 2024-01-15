@@ -15,7 +15,7 @@ import java.util.Objects;
 @Configuration
 public class FirebaseConfig {
 
-    @Value("${firebase.keyPath}")
+    @Value("${FIREBASE_KEYPATH}")
     private String keyPath;
 
     @PostConstruct
