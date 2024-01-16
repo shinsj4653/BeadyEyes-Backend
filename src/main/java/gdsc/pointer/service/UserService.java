@@ -1,8 +1,7 @@
 package gdsc.pointer.service;
 
 import gdsc.pointer.domain.User;
-import gdsc.pointer.dto.request.UserDto;
-import org.springframework.http.ResponseEntity;
+import gdsc.pointer.dto.request.login.UserDto;
 
 import java.util.List;
 

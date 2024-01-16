@@ -1,7 +1,7 @@
 package gdsc.pointer.controller;
 
 import gdsc.pointer.domain.User;
-import gdsc.pointer.dto.request.UserDto;
+import gdsc.pointer.dto.request.login.UserDto;
 import gdsc.pointer.dto.response.ResultDto;
 import gdsc.pointer.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,6 @@ public class UserController {
         List<User> users = userService.getUsers();
         return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "회원 조회 완료", users));
     }
-
 
     @PostMapping()
     public ResponseEntity<?> addUser(@RequestBody UserDto userDto) throws Exception{

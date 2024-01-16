@@ -2,7 +2,7 @@ package gdsc.pointer.service;
 
 import gdsc.pointer.dao.UserDao;
 import gdsc.pointer.domain.User;
-import gdsc.pointer.dto.request.UserDto;
+import gdsc.pointer.dto.request.login.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
