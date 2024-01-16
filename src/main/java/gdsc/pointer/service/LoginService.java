@@ -45,10 +45,10 @@ public class LoginService {
 
         String id = userResourceNode.get("id").asText();
         String email = userResourceNode.get("email").asText();
-        String nickname = userResourceNode.get("name").asText();
+        String name = userResourceNode.get("name").asText();
         log.info("id = " + id);
         log.info("email = " + email);
-        log.info("nickname = " + nickname);
+        log.info("name = " + name);
 
         // 처음 로그인 하는 유저라면 Firebase DB에 정보 저장 O
         // 이미 존재하는 유저의 id라면 DB에 정보 저장 X
@@ -56,7 +56,7 @@ public class LoginService {
             throw new DuplicateUserIdException();
         }
 
-        UserDto userDto = new UserDto(id, email, nickname);
+        UserDto userDto = new UserDto(id, email, name);
         userDao.addUser(userDto);
         return userDto;
     }

@@ -44,6 +44,36 @@ public class UserDao {
         return user;
     }
 
+    public boolean isUserEmailExist(String email) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        CollectionReference collection = firestore.collection(COLLECTION_NAME);
+        // Create a query to check for the user with the specified email
+        Query query = collection.whereEqualTo("email", email);
+
+        ApiFuture<QuerySnapshot> querySnapshot = query.get();
+        List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+
+        if(!documents.isEmpty()){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isUserNameExist(String name) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        CollectionReference collection = firestore.collection(COLLECTION_NAME);
+        // Create a query to check for the user with the specified email
+        Query query = collection.whereEqualTo("name", name);
+
+        ApiFuture<QuerySnapshot> querySnapshot = query.get();
+        List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+
+        if(!documents.isEmpty()){
+            return true;
+        }
+        return false;
+    }
+
 
     public void addUser(UserDto userDto) throws Exception {
         Firestore firestore = FirestoreClient.getFirestore();
