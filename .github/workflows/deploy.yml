@@ -38,7 +38,7 @@ jobs:
       run: |
         cd ./src/main/resources
         touch ./application.properties
-        echo "FIREBASE_KEYPATH=${{ secrets.FIREBASE_KEYPATH }}" > application.properties
+        echo "${{ secrets.ENV }}" > application.properties
       shell: bash
 
     - name: Set serviceAccountKey.json
@@ -80,4 +80,4 @@ jobs:
           sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
           sudo docker pull shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
           sudo docker tag shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7} gdsc-sc-pointer-backend
-          sudo docker run -d -p 8080:8080 gdsc-sc-pointer-backend
+          sudo docker-compose up -d
