@@ -1,13 +1,13 @@
 package gdsc.pointer.dao;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import gdsc.pointer.domain.User;
 import gdsc.pointer.dto.request.login.UserDto;
+import gdsc.pointer.exception.notfound.user.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -31,11 +31,24 @@ public class UserDao {
     }
 
 
-
+    public User getUserDetail(String id) throws Exception {
+        Firestore firestore = FirestoreClient.getFirestore();
+        DocumentReference documentReference =
+                firestore.collection(COLLECTION_NAME).document(id);
+        ApiFuture<DocumentSnapshot> apiFuture = documentReference.get();
+        DocumentSnapshot documentSnapshot = apiFuture.get();
+        User user = null;
+        if(documentSnapshot.exists()){
+            user = documentSnapshot.toObject(User.class);
+        }
+        return user;
+    }
 
 
     public void addUser(UserDto userDto) throws Exception {
-
+        Firestore firestore = FirestoreClient.getFirestore();
+        ApiFuture<com.google.cloud.firestore.WriteResult> apiFuture =
+                firestore.collection(COLLECTION_NAME).document(userDto.getId()).set(userDto);
     }
 
 

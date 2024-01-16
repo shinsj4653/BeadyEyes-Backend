@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface UserService {
     List<User> getUsers() throws Exception;
+
+    User getUserDetail(String id) throws Exception;
     void addUser(UserDto userDto) throws Exception;
 }

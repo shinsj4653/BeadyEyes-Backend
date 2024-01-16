@@ -2,6 +2,8 @@ package gdsc.pointer.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import gdsc.pointer.dao.UserDao;
+import gdsc.pointer.dto.request.login.UserDto;
+import gdsc.pointer.exception.badrequest.user.DuplicateUserIdException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,7 +37,7 @@ public class LoginService {
     private final RestTemplate restTemplate = new RestTemplate();
 
 
-    public void socialLogin(String code, String registrationId) {
+    public UserDto socialLogin(String code, String registrationId) throws Exception {
 
         String accessToken = getAccessToken(code, registrationId);
         JsonNode userResourceNode = getUserResource(accessToken, registrationId);
@@ -50,15 +52,22 @@ public class LoginService {
 
         // 처음 로그인 하는 유저라면 Firebase DB에 정보 저장 O
         // 이미 존재하는 유저의 id라면 DB에 정보 저장 X
+        if (validateDuplicateUser(id)) {
+            throw new DuplicateUserIdException();
+        }
 
-        validateDuplicateUser(id);
-
+        UserDto userDto = new UserDto(id, email, nickname);
+        userDao.addUser(userDto);
+        return userDto;
     }
 
-    private void validateDuplicateUser(String id) {
-
-
-
+    private boolean validateDuplicateUser(String id) throws Exception {
+        if (userDao.getUserDetail(id) != null) {
+            // 이미 존재하는 유저인 경우
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private String getAccessToken(String authorizationCode, String registrationId) {
