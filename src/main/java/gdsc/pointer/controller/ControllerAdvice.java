@@ -48,6 +48,6 @@ public class ControllerAdvice {
                 e.getMessage()
         );
         return ResponseEntity.internalServerError()
-                .body(new ErrorResponse(9999, "일시적으로 접속이 원활하지 않습니다. 지하철 서비스 팀에 문의 부탁드립니다."));
+                .body(new ErrorResponse(9999, "일시적으로 접속이 원활하지 않습니다. BeadyEyes 개발팀에 문의 부탁드립니다."));
     }
 }
