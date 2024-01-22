@@ -19,6 +19,7 @@ import java.util.List;
 @RequestMapping("/image")
 public class ImageController {
 
+    // change directory name test
     private final ImageService imageService;
     @PostMapping("upload")
     public ResponseEntity<?> uploadImage(ImageUploadDto dto) throws Exception {
