@@ -41,6 +41,14 @@ jobs:
         echo "${{ secrets.ENV }}" > application.properties
       shell: bash
 
+    - name: Set storageAccountKey.json
+      id: create-storage-account-key-json
+      uses: jsdaniell/create-json@v1.1.2
+      with:
+        name: "storageAccountKey.json"
+        json: ${{ secrets.STORAGE_ACCOUNT_KEY_JSON }}
+        dir: "./src/main/resources"
+
     - name: Set serviceAccountKey.json
       id: create-service-account-key-json
       uses: jsdaniell/create-json@v1.1.2
@@ -54,13 +62,6 @@ jobs:
         #echo "${{ secrets.SERVICE_ACCOUNT_KEY_JSON }}" > serviceAccountKey.json
       #shell: bash
     
-    - name: Set storageAccountKey.json
-      id: create-storage-account-key-json
-      uses: jsdaniell/create-json@v1.1.2
-      with:
-        name: "storageAccountKey.json"
-        json: ${{ secrets.STORAGE_ACCOUNT_KEY_JSON }}
-        dir: "./src/main/resources"
     
     # Gradle build (Test 제외)
     - name: Build with Gradle
