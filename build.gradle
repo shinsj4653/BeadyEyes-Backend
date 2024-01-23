@@ -43,8 +43,19 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'com.google.firebase:firebase-admin:6.12.1'
+	implementation 'com.google.api:gax-grpc:1.57.0'
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter', version: '1.2.5.RELEASE'
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-storage', version: '1.2.5.RELEASE'
+
+	//implementation 'org.springframework.cloud:spring-cloud-gcp-starter-vision'
+	//implementation 'com.google.cloud:google-cloud-vision:2.5.1' // Replace with the latest version
+	//implementation 'io.grpc:grpc-core:1.5.0' // Replace with the latest version
+
+	implementation 'com.google.cloud:google-cloud-vision:3.31.0'
+	//implementation 'org.springframework.cloud:spring-cloud-gcp-starter-storage:1.2.8.RELEASE'
+	//implementation "org.springframework.cloud:spring-cloud-gcp-starter-pubsub:1.2.5.RELEASE"
+	//implementation "org.springframework.integration:spring-integration-core"
+	implementation 'org.springframework.cloud:spring-cloud-gcp-starter-vision:1.2.8.RELEASE'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
