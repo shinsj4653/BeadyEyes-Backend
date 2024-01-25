@@ -1,18 +1,14 @@
-package gdsc.pointer.domain;
+package gdsc.pointer.dto.request.login;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
-
+public class UserDto {
     private String id;
     private String email;
-    private String nickname;
-
+    private String name;
 }

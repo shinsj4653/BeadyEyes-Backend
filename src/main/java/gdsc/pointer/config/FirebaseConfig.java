@@ -1,10 +1,13 @@
 package gdsc.pointer.config;
 
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.Firestore;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.google.firebase.cloud.FirestoreClient;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.FileInputStream;
@@ -15,11 +18,11 @@ import java.util.Objects;
 @Configuration
 public class FirebaseConfig {
 
-    @Value("${firebase.keyPath}")
+    @Value("${FIREBASE_KEYPATH}")
     private String keyPath;
 
-    @PostConstruct
-    public void init() throws IOException {
+    @Bean
+    public Firestore db() throws IOException {
 
         InputStream serviceAccount = getClass().getResourceAsStream(keyPath);
 
@@ -33,5 +36,7 @@ public class FirebaseConfig {
 
         FirebaseApp.initializeApp(options);
 
+        Firestore db = FirestoreClient.getFirestore();
+        return db;
     }
 }
