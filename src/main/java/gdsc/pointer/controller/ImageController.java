@@ -4,6 +4,7 @@ import gdsc.pointer.domain.User;
 import gdsc.pointer.dto.request.image.ImageUploadDto;
 import gdsc.pointer.dto.response.ResultDto;
 import gdsc.pointer.service.ImageService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,17 @@ public class ImageController {
 
     // change directory name test
     private final ImageService imageService;
+    //private final VisionServiceImpl visionService;
+
     @PostMapping("upload")
     public ResponseEntity<?> uploadImage(ImageUploadDto dto) throws Exception {
         String imageUrl = imageService.uploadImage(dto.getImage());
         return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "이미지 업로드 완료", imageUrl));
     }
+
+//    @PostMapping("toText")
+//    public ResponseEntity<?> toText(ImageUploadDto dto) throws Exception {
+//        String result = visionService.extractTextFromImage(dto.getImage());
+//        return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "이미지 to Text", result));
+//    }
 }

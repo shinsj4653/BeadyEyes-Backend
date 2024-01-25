@@ -6,6 +6,7 @@ import com.google.firebase.cloud.FirestoreClient;
 import gdsc.pointer.domain.User;
 import gdsc.pointer.dto.request.login.UserDto;
 import gdsc.pointer.exception.notfound.user.UserNotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
@@ -15,13 +16,16 @@ import java.util.List;
 
 @Repository
 @Slf4j
+@RequiredArgsConstructor
 public class UserDao {
 
     public static final String COLLECTION_NAME = "User";
 
+    private final Firestore db;
+
     public List<User> getUsers() throws Exception {
         List<User> list = new ArrayList<>();
-        Firestore db = FirestoreClient.getFirestore();
+        //Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COLLECTION_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
         for (QueryDocumentSnapshot document : documents) {
@@ -32,9 +36,9 @@ public class UserDao {
 
 
     public User getUserDetail(String id) throws Exception {
-        Firestore firestore = FirestoreClient.getFirestore();
+        //Firestore firestore = FirestoreClient.getFirestore();
         DocumentReference documentReference =
-                firestore.collection(COLLECTION_NAME).document(id);
+                db.collection(COLLECTION_NAME).document(id);
         ApiFuture<DocumentSnapshot> apiFuture = documentReference.get();
         DocumentSnapshot documentSnapshot = apiFuture.get();
         User user = null;
@@ -45,8 +49,8 @@ public class UserDao {
     }
 
     public boolean isUserEmailExist(String email) throws Exception {
-        Firestore firestore = FirestoreClient.getFirestore();
-        CollectionReference collection = firestore.collection(COLLECTION_NAME);
+        //Firestore firestore = FirestoreClient.getFirestore();
+        CollectionReference collection = db.collection(COLLECTION_NAME);
         // Create a query to check for the user with the specified email
         Query query = collection.whereEqualTo("email", email);
 
@@ -60,8 +64,8 @@ public class UserDao {
     }
 
     public boolean isUserNameExist(String name) throws Exception {
-        Firestore firestore = FirestoreClient.getFirestore();
-        CollectionReference collection = firestore.collection(COLLECTION_NAME);
+        //Firestore firestore = FirestoreClient.getFirestore();
+        CollectionReference collection = db.collection(COLLECTION_NAME);
         // Create a query to check for the user with the specified email
         Query query = collection.whereEqualTo("name", name);
 
@@ -76,9 +80,9 @@ public class UserDao {
 
 
     public void addUser(UserDto userDto) throws Exception {
-        Firestore firestore = FirestoreClient.getFirestore();
+        //Firestore firestore = FirestoreClient.getFirestore();
         ApiFuture<com.google.cloud.firestore.WriteResult> apiFuture =
-                firestore.collection(COLLECTION_NAME).document(userDto.getId()).set(userDto);
+                db.collection(COLLECTION_NAME).document(userDto.getId()).set(userDto);
     }
 
 

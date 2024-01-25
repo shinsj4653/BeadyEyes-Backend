@@ -46,3 +46,4 @@ src/main/resources/application.properties
 ### firebase json key ###
 src/main/resources/serviceAccountKey.json
 src/main/resources/storageAccountKey.json
+src/main/resources/ocrAccountKey.json
