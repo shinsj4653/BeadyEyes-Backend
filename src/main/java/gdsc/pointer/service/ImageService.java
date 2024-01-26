@@ -3,6 +3,8 @@ package gdsc.pointer.service;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.*;
 import com.google.cloud.vision.v1.*;
+import gdsc.pointer.dto.request.image.ImageUrlDto;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -12,11 +14,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,12 +36,10 @@ public class ImageService {
     @Value("${spring.cloud.gcp.storage.bucket}")
     private String bucketName;
 
+    @Value("${AI_SERVER_URL}")
+    private String aiServerUrl;
+
     private final Storage storage;
-
-
-    // [START vision_spring_autowire]
-    //private final CloudVisionTemplate cloudVisionTemplate;
-    // [END vision_spring_autowire]
 
 
     public String uploadImage(MultipartFile file) throws IOException {
@@ -54,59 +59,35 @@ public class ImageService {
         return "https://storage.googleapis.com/" + bucketName + "/" + uuid;
     }
 
-//    public String toText() throws IOException {
-//        // TODO(developer): Replace these variables before running the sample.
-//        String filePath = "https://storage.googleapis.com/gdcs-sc-beadyeyes-bucket/574291a3-87f1-46b5-8a1a-6ba40d75bcea";
-//
-//        UrlResource gcsResource = new UrlResource(filePath);
-//
-//        String textFromImage =
-//                cloudVisionTemplate.extractTextFromImage(gcsResource);
-//        return "Text from image: " + textFromImage;
-//        //return detectTextGcs(filePath);
-//    }
-//
-//    // Detects text in the specified remote image on Google Cloud Storage.
-//    public String detectTextGcs(String gcsPath) throws IOException {
-//
-//        List<AnnotateImageRequest> requests = new ArrayList<>();
-//
-//        ImageSource imgSource = ImageSource.newBuilder().setImageUri(gcsPath).build();
-//        Image img = Image.newBuilder().setSource(imgSource).build();
-//        Feature feat = Feature.newBuilder().setType(Feature.Type.TEXT_DETECTION).build();
-//        AnnotateImageRequest request =
-//                AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
-//        requests.add(request);
-//
-//        try (ImageAnnotatorClient client = ImageAnnotatorClient.create()) {
-//            BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
-//            List<AnnotateImageResponse> responses = response.getResponsesList();
-//
-//            StringBuilder result = new StringBuilder();
-//            for (AnnotateImageResponse res : responses) {
-//
-//                if (res.hasError()) {
-//                    System.out.format("Error: %s%n", res.getError().getMessage());
-//                    return null;
-//                }
-//
-//                for (EntityAnnotation annotation : res.getTextAnnotationsList()) {
-//                    log.info(annotation.getDescription());
-//                    result.append(annotation.getDescription()).append(" ");
-//                }
-//            }
-//
-//
-//
-//            return result.toString();
-//        }
-//        catch (Exception exception) {
-//            return exception.getMessage();
-//        }
-//
-//    }
+    public String toText(MultipartFile file) throws IOException {
 
+        // GCS 사진 업로드 후, 공개 이미지 url 반환
+        String image_url = uploadImage(file);
 
+        // RestTemplate 사용하여 AI Server로 통신
+        // 사진 url 전송 -> 텍스트 반환
+        // POST 요청
+        ResponseEntity<String> responseEntity = postWithImageUrl(image_url);
+        return responseEntity.getBody();
+    }
 
+    private ResponseEntity<String> postWithImageUrl(String url) {
+        URI uri = UriComponentsBuilder
+                .fromUriString(aiServerUrl)
+                .path("/image/toText")
+                .encode()
+                .build()
+                .toUri();
+
+        ImageUrlDto imageUrlDto = new ImageUrlDto();
+        imageUrlDto.setImageUrl(url);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(
+                uri, imageUrlDto, String.class
+        );
+
+        return responseEntity;
+    }
 
 }

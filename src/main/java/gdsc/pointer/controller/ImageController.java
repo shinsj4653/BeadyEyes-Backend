@@ -30,9 +30,9 @@ public class ImageController {
         return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "이미지 업로드 완료", imageUrl));
     }
 
-//    @PostMapping("toText")
-//    public ResponseEntity<?> toText(ImageUploadDto dto) throws Exception {
-//        String result = visionService.extractTextFromImage(dto.getImage());
-//        return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "이미지 to Text", result));
-//    }
+    @PostMapping("toText")
+    public ResponseEntity<?> toText(ImageUploadDto dto) throws Exception {
+        String result = imageService.toText(dto.getImage());
+        return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "이미지 to Text", result));
+    }
 }
