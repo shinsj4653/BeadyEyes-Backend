@@ -68,7 +68,14 @@ public class ImageService {
         // 사진 url 전송 -> 텍스트 반환
         // POST 요청
         ResponseEntity<String> responseEntity = postWithImageUrl(image_url);
-        return responseEntity.getBody();
+        log.info("responseEntity.getBody() = {}", responseEntity.getBody());
+
+        String postResult = responseEntity.getBody();
+
+        // 문자열 파싱
+        String parsedResult = textParse(postResult);
+
+        return parsedResult;
     }
 
     private ResponseEntity<String> postWithImageUrl(String url) {
@@ -88,6 +95,16 @@ public class ImageService {
         );
 
         return responseEntity;
+    }
+
+    private String textParse(String text) {
+        // Replace "\\" with an empty string
+        String parsedText = text.replace("\\", "");
+
+        // Replace "\n" with an empty string
+        parsedText = parsedText.replace("\n", "");
+
+        return parsedText;
     }
 
 }
