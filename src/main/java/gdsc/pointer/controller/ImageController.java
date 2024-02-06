@@ -3,6 +3,7 @@ package gdsc.pointer.controller;
 import gdsc.pointer.domain.User;
 import gdsc.pointer.dto.request.image.ImageUploadDto;
 import gdsc.pointer.dto.response.ResultDto;
+import gdsc.pointer.dto.response.image.PolyResponseDto;
 import gdsc.pointer.service.ImageService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,11 @@ public class ImageController {
     public ResponseEntity<?> toText(ImageUploadDto dto) throws Exception {
         String result = imageService.toText(dto.getImage());
         return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "이미지 to Text", result));
+    }
+
+    @PostMapping("boundingPoly")
+    public ResponseEntity<?> boundingPoly(ImageUploadDto dto) throws Exception {
+        PolyResponseDto result = imageService.getImageTextBoundingPoly(dto.getImage());
+        return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "이미지 텍스트 좌표 값 반환", result));
     }
 }

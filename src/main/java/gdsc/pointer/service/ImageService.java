@@ -4,6 +4,7 @@ import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.*;
 import com.google.cloud.vision.v1.*;
 import gdsc.pointer.dto.request.image.ImageUrlDto;
+import gdsc.pointer.dto.response.image.PolyResponseDto;
 import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -106,5 +104,36 @@ public class ImageService {
 
         return parsedText;
     }
+
+    public PolyResponseDto getImageTextBoundingPoly(MultipartFile file) throws IOException {
+
+        // GCS 사진 업로드 후, 공개 이미지 url 반환
+        String image_url = uploadImage(file);
+
+        ResponseEntity<PolyResponseDto> responseDto = postImageBoundingPoly(image_url);
+        return responseDto.getBody();
+    }
+
+    private ResponseEntity<PolyResponseDto> postImageBoundingPoly(String url) {
+        URI uri = UriComponentsBuilder
+                .fromUriString(aiServerUrl)
+                .path("/image/boundingPoly")
+                .encode()
+                .build()
+                .toUri();
+
+        ImageUrlDto imageUrlDto = new ImageUrlDto();
+        imageUrlDto.setImageUrl(url);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<PolyResponseDto> responseEntity = restTemplate.postForEntity(
+                uri, imageUrlDto, PolyResponseDto.class
+        );
+        System.out.println(responseEntity);
+
+        return responseEntity;
+    }
+
+
 
 }
