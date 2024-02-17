@@ -2,17 +2,17 @@ package gdsc.pointer.controller;
 
 import gdsc.pointer.domain.User;
 import gdsc.pointer.dto.request.image.ImageUploadDto;
+import gdsc.pointer.dto.request.image.PointerDto;
 import gdsc.pointer.dto.response.ResultDto;
+import gdsc.pointer.dto.response.image.PointerResponseDto;
 import gdsc.pointer.dto.response.image.PolyResponseDto;
 import gdsc.pointer.service.ImageService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -41,5 +41,11 @@ public class ImageController {
     public ResponseEntity<?> boundingPoly(ImageUploadDto dto) throws Exception {
         PolyResponseDto result = imageService.getImageTextBoundingPoly(dto.getImage());
         return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "이미지 텍스트 좌표 값 반환", result));
+    }
+
+    @PostMapping("pointer")
+    public ResponseEntity<?> pointer(PointerDto dto) throws Exception {
+        PointerResponseDto result = imageService.getWordsWithPointer(dto);
+        return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "손가락 좌표에 해당하는 단어 반환", result));
     }
 }
