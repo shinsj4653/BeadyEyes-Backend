@@ -43,9 +43,9 @@ public class ImageController {
         return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "이미지 텍스트 좌표 값 반환", result));
     }
 
-    @PostMapping("pointer")
-    public ResponseEntity<?> pointer(PointerDto dto) throws Exception {
-        PointerResponseDto result = imageService.getWordsWithPointer(dto);
-        return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "손가락 좌표에 해당하는 단어 반환", result));
-    }
+//    @PostMapping("pointer")
+//    public ResponseEntity<?> pointer(PointerDto dto) throws Exception {
+//        PointerResponseDto result = imageService.getWordsWithPointer(dto);
+//        return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "손가락 좌표에 해당하는 단어 반환", result));
+//    }
 }
