@@ -9,6 +9,4 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class PointerAIDto {
     private String imageUrl;
-    private int x;
-    private int y;
 }

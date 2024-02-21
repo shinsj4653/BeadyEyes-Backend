@@ -11,7 +11,5 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class PointerDto {
-    private MultipartFile file;
-    private int x;
-    private int y;
+    private MultipartFile image;
 }

@@ -119,43 +119,39 @@ public class ImageService {
         return responseDto.getBody();
     }
 
-//    public PointerResponseDto getWordsWithPointer(PointerDto dto) throws IOException {
-//
-//        // GCS 사진 업로드 후, 공개 이미지 url 반환
-//        String image_url = uploadImage(dto.getFile());
-//
-//        //String image_url = dto.getImageUrl();
-//        int x = dto.getX();
-//        int y = dto.getY();
-//        ResponseEntity<PointerResponseDto> response = postPointer(image_url, x, y);
-//        return response.getBody();
-//    }
-//
-//    private ResponseEntity<PointerResponseDto>  postPointer(String url, int x, int y) {
-//
-//        URI uri = UriComponentsBuilder
-//                .fromUriString(aiServerUrl)
-//                .path("/image/pointer")
-//                .encode()
-//                .build()
-//                .toUri();
-//
-//        PointerAIDto pointerAIDto = new PointerAIDto();
-//        pointerAIDto.setImageUrl(url);
-//        pointerAIDto.setX(x);
-//        pointerAIDto.setY(y);
-//
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        ResponseEntity<PointerResponseDto> responseEntity = restTemplate.postForEntity(
-//                uri, pointerAIDto, PointerResponseDto.class
-//        );
-//        System.out.println(responseEntity);
-//
-//        return responseEntity;
-//
-//    }
+    public String getWordWithPointer(PointerDto dto) throws IOException {
+
+        // GCS 사진 업로드 후, 공개 이미지 url 반환
+        String image_url = uploadImage(dto.getImage());
+
+        //String image_url = dto.getImageUrl();
+        ResponseEntity<String> response = postPointer(image_url);
+        return response.getBody();
+    }
+
+    private ResponseEntity<String>  postPointer(String url) {
+
+        URI uri = UriComponentsBuilder
+                .fromUriString(aiServerUrl)
+                .path("/image/pointer")
+                .encode()
+                .build()
+                .toUri();
+
+        PointerAIDto pointerAIDto = new PointerAIDto();
+        pointerAIDto.setImageUrl(url);
+
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(
+                uri, pointerAIDto, String.class
+        );
+        System.out.println(responseEntity);
+
+        return responseEntity;
+
+    }
 
     private ResponseEntity<PolyResponseDto> postImageBoundingPoly(String url) {
         URI uri = UriComponentsBuilder
