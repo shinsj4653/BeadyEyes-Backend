@@ -126,7 +126,8 @@ public class ImageService {
 
         //String image_url = dto.getImageUrl();
         ResponseEntity<String> response = postPointer(image_url);
-        return response.getBody();
+        String parsedText = textParse(response.getBody());
+        return parsedText;
     }
 
     private ResponseEntity<String>  postPointer(String url) {
