@@ -39,7 +39,8 @@ public class ImageService {
     public String uploadImage(MultipartFile file) throws IOException {
 
         String uuid = UUID.randomUUID().toString(); // Google Cloud Storage에 저장될 파일 이름
-        String ext = file.getContentType(); // 파일의 형식 ex) JPG
+//        String ext = file.getContentType(); // 파일의 형식 ex) JPG
+        String ext = "image/jpeg";
 
         // Cloud에 이미지 업로드
         BlobInfo blobInfo = storage.create(
