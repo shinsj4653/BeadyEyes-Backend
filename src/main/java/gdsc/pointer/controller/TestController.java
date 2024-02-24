@@ -11,7 +11,7 @@ public class TestController {
     @RequestMapping("/")
     public String test() {
         log.info("test");
-        return "test";
+        return "This is a root path for SpringBoot Backend v3";
     }
 
 }
