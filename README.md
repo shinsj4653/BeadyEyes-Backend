@@ -37,6 +37,6 @@ Make sure to tag the correct image name, so that the docker-compose.yml file can
 ```bash
 sudo docker login
 sudo docker pull {{accountName}}/{{repositoryName}} ./
-sudo docker tag {{imageThatYouHavePulled}} {{imageThatYouAreGoingToMake}}
+sudo docker tag {{imageThatYouHavePulled}} {{imageThatYouNeedForDockerCompose}}
 sudo docker-compose up -d
 ```
