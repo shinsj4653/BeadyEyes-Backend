@@ -1,6 +1,5 @@
 package gdsc.pointer.exception.badrequest.user;
 
-import gdsc.pointer.exception.ExceptionContext;
 import gdsc.pointer.exception.badrequest.BadRequestException;
 import lombok.Getter;
 
