@@ -56,16 +56,4 @@ public class UserController {
         return ResponseEntity.ok(ResultDto.res(HttpStatus.CREATED, "회원 가입 완료"));
     }
 
-
-//
-//    @PutMapping("/updateUser/{id}")
-//    public ResponseEntity<?> updateUser(@PathVariable("id") String id, @RequestBody User user) throws Exception{
-//        return userService.updateUser(id, user);
-//    }
-//
-//    @DeleteMapping("/deleteUser/{id}")
-//    public ResponseEntity<?> deleteUser(@PathVariable("id") String id) throws Exception{
-//        return userService.deleteUser(id);
-//    }
-
 }
