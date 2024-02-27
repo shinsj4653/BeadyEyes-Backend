@@ -2,24 +2,15 @@ package gdsc.pointer.service;
 
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.*;
-import com.google.cloud.vision.v1.*;
 import gdsc.pointer.dto.request.image.ImageUrlDto;
 import gdsc.pointer.dto.request.image.PointerAIDto;
 import gdsc.pointer.dto.request.image.PointerDto;
-import gdsc.pointer.dto.response.image.PointerResponseDto;
 import gdsc.pointer.dto.response.image.PolyResponseDto;
-import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.gcp.vision.CloudVisionTemplate;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -47,7 +38,6 @@ public class ImageService {
 
     public String uploadImage(MultipartFile file) throws IOException {
 
-        // !!!!!!!!!!!이미지 업로드 관련 부분!!!!!!!!!!!!!!!
         String uuid = UUID.randomUUID().toString(); // Google Cloud Storage에 저장될 파일 이름
         String ext = file.getContentType(); // 파일의 형식 ex) JPG
 

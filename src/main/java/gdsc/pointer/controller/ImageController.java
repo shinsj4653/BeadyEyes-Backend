@@ -1,10 +1,8 @@
 package gdsc.pointer.controller;
 
-import gdsc.pointer.domain.User;
 import gdsc.pointer.dto.request.image.ImageUploadDto;
 import gdsc.pointer.dto.request.image.PointerDto;
 import gdsc.pointer.dto.response.ResultDto;
-import gdsc.pointer.dto.response.image.PointerResponseDto;
 import gdsc.pointer.dto.response.image.PolyResponseDto;
 import gdsc.pointer.service.ImageService;
 
@@ -12,18 +10,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/image")
 public class ImageController {
 
-    // change directory name test
     private final ImageService imageService;
-    //private final VisionServiceImpl visionService;
 
     @PostMapping("upload")
     public ResponseEntity<?> uploadImage(ImageUploadDto dto) throws Exception {
