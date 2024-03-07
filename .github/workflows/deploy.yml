@@ -97,6 +97,6 @@ jobs:
           sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
           sudo docker pull ${{ secrets.DOCKERHUB_REPOSITORY }}:${GITHUB_SHA::7}
           sudo docker tag ${{ secrets.DOCKERHUB_REPOSITORY }}:${GITHUB_SHA::7} beadyeyes-spring
-          chmod 777 ./deploy.sh
+          sudo chmod 777 ./deploy.sh
           ./deploy.sh
           sudo docker image prune -f
