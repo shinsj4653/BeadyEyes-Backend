@@ -38,7 +38,7 @@ jobs:
       run: |
         cd ./src/main/resources
         touch ./application.properties
-        echo "${{ secrets.ENV }}" > application.properties
+        echo "${{ secrets.APPLICATION_PROPERTIES }}" > application.properties
       shell: bash
 
     - name: Set storageAccountKey.json
@@ -72,9 +72,7 @@ jobs:
     - name: Docker build
       run: |
         docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-        docker build -t gdsc-solution-challenge-team4-pointer .
-        docker tag gdsc-solution-challenge-team4-pointer shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
-        docker push shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
+        docker buildx build --push --platform linux/amd64 -t ${{ secrets.DOCKERHUB_REPOSITORY }} .
 
 
     # Deploy
@@ -87,6 +85,6 @@ jobs:
         envs: GITHUB_SHA
         script: | 
           sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-          sudo docker pull shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
-          sudo docker tag shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7} beadyeyes-backend
+          sudo docker pull ${{ secrets.DOCKERHUB_REPOSITORY }}:${GITHUB_SHA::7}
+          sudo docker tag ${{ secrets.DOCKERHUB_REPOSITORY }}:${GITHUB_SHA::7} beadyeyes-backend
           sudo docker-compose up -d
