@@ -56,12 +56,6 @@ jobs:
         name: "serviceAccountKey.json"
         json: ${{ secrets.SERVICE_ACCOUNT_KEY_JSON }}
         dir: "./src/main/resources"
-      #run: |
-        #cd ./src/main/resources
-        #touch ./serviceAccountKey.json
-        #echo "${{ secrets.SERVICE_ACCOUNT_KEY_JSON }}" > serviceAccountKey.json
-      #shell: bash
-    
     
     # Gradle build (Test 제외)
     - name: Build with Gradle
@@ -72,10 +66,7 @@ jobs:
     - name: Docker build
       run: |
         docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-        docker build -t gdsc-solution-challenge-team4-pointer .
-        docker tag gdsc-solution-challenge-team4-pointer shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
-        docker push shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
-
+        docker buildx build --push --platform linux/amd64 -t ${{ secrets.DOCKERHUB_REPOSITORY }}:${GITHUB_SHA::7} .
 
     # Deploy
     - name: Deploy
@@ -87,6 +78,6 @@ jobs:
         envs: GITHUB_SHA
         script: | 
           sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-          sudo docker pull shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7}
-          sudo docker tag shinsj4653/gdsc-solution-challenge-team4-pointer:${GITHUB_SHA::7} beadyeyes-backend
+          sudo docker pull ${{ secrets.DOCKERHUB_REPOSITORY }}:${GITHUB_SHA::7}
+          sudo docker tag ${{ secrets.DOCKERHUB_REPOSITORY }}:${GITHUB_SHA::7} beadyeyes-backend
           sudo docker-compose up -d
