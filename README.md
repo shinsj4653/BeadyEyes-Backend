@@ -1,4 +1,13 @@
 # GDSC Solution Challenge - BeadyEyes
+
+## Main Improvements
+### 1. Adding Zero-Downtime Deployment
+- Before
+
+
+- After
+
+
 ## Backend repo
 
 ### How to run my code on local environment by using SpringBoot Framework
@@ -26,17 +35,19 @@
 3. Create docker image of the project.
 From the project that was build, make a docker image and push it to your own DockerHub repository.  
 ```bash
-docker login
-docker build -t {{accountName}}/{{repositoryName}} ./
-docker push {{accountName}}/{{repositoryName}} ./
+docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+docker buildx build --push --platform linux/amd64 -t ${{ secrets.DOCKERHUB_REPOSITORY }}:${GITHUB_SHA::7} .
 ```
 
-4. Pull the docker image and use docker-compose to deploy.
-Inside the vm instance ssh console, use these process to deploy the image via docker-compose.
-Make sure to tag the correct image name, so that the docker-compose.yml file can detect it.
+4. Pull the docker image and use docker-compose to deploy.  
+Inside the vm instance ssh console, use these process to deploy the image via docker-compose.  
+Make sure to tag the correct image name, so that the docker-compose.yml file can detect it.  
+Also, deploy.sh file with Nginx feature allows the project to be deployed with zero downtime.  
 ```bash
-sudo docker login
-sudo docker pull {{accountName}}/{{repositoryName}} ./
-sudo docker tag {{imageThatYouHavePulled}} {{imageThatYouNeedForDockerCompose}}
-sudo docker-compose up -d
+sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+sudo docker pull ${{ secrets.DOCKERHUB_REPOSITORY }}:${GITHUB_SHA::7}
+sudo docker tag ${{ secrets.DOCKERHUB_REPOSITORY }}:${GITHUB_SHA::7} beadyeyes-spring
+sudo chmod 777 ./deploy.sh
+./deploy.sh
+sudo docker image prune -f
 ```
