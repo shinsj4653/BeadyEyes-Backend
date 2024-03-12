@@ -5,7 +5,92 @@
 - Before
 
 
+https://github.com/GDSC-Solution-Challenge-Team-4/BeadyEyes-Backend/assets/49470452/9f44e266-2a8e-4313-8bb7-28191be0e5f5  
+
+In the process of Deploy, there was about `10 ~ 15 secs of downtime`.
+
+
 - After
+
+
+
+https://github.com/GDSC-Solution-Challenge-Team-4/BeadyEyes-Backend/assets/49470452/4a265318-cbb9-4639-90ec-ad8814389283  
+
+By applying `deploy.sh` file and Nginx Web Server's `proxy_pass`, we managed to `decrease the downtime to 0 sec`.
+
+- deploy.sh  
+```bash
+IS_GREEN=$(sudo docker ps | grep beadyeyes-spring-green) # Check the current running container
+DEFAULT_CONF=" /etc/nginx/nginx.conf"
+
+if [ -z $IS_GREEN  ];then # blue라면
+
+  echo "### BLUE => GREEN ###"
+
+  echo "1. tag green image"
+  sudo docker tag beadyeyes-spring beadyeyes-spring-green # tag the image to green
+
+  echo "2. green container up"
+  sudo docker-compose up -d beadyeyes-spring-green # execute green container
+
+  while [ 1 = 1 ]; do
+  echo "3. green health check..."
+  sleep 3
+
+  REQUEST=$(curl ${ green-server }) # request to green server
+    if [ -n "$REQUEST" ]; then # if the service is available, then cancel health check
+            echo "health check success"
+            break ;
+            fi
+  done;
+
+  echo "4. reload nginx"
+  sudo cp /etc/nginx/nginx.green.conf /etc/nginx/nginx.conf
+  sudo nginx -s reload
+
+  echo "5. blue container down"
+  sudo docker-compose stop beadyeyes-spring-blue
+else
+  echo "### GREEN => BLUE ###"
+
+  echo "1. tag blue image"
+  sudo docker tag beadyeyes-spring beadyeyes-spring-blue
+
+  echo "2. blue container up"
+  sudo docker-compose up -d beadyeyes-spring-blue
+else
+  echo "### GREEN => BLUE ###"
+
+  echo "1. tag blue image"
+  sudo docker tag beadyeyes-spring beadyeyes-spring-blue
+
+  echo "2. blue container up"
+  sudo docker-compose up -d beadyeyes-spring-blue
+
+  while [ 1 = 1 ]; do
+    echo "3. blue health check..."
+    sleep 3
+    REQUEST=$(curl { blue-server }) # request to blue server
+
+    if [ -n "$REQUEST" ]; then 
+      echo "health check success"
+      break ;
+    fi
+  done;
+
+  echo "4. reload nginx"
+  sudo cp /etc/nginx/nginx.blue.conf /etc/nginx/nginx.conf
+  sudo nginx -s reload
+
+  echo "5. green container down"
+  sudo docker-compose stop beadyeyes-spring-green
+fi
+```
+1. Check which conatiner is running currently.  
+2. If the blue container is running, then pull the green image from Dockerhub and tag the image to green.
+3. Health check through port 8080, since the green-server is using this port.(blue-server is using port 8081)
+4. Modify the nginx.conf to the required conf, in this case, nginx.green.conf.
+5. Stop the blue container.
 
 
 ## Backend repo
